@@ -17,17 +17,17 @@ public:
 
 	
 
-	QVector2D getPos() { return m_pos; }
-	int getHealth() { return m_health; }
-	void setHealth(int health_) { m_health = health_; }
-	bool isAlive() { return m_life; }
-	QColor getColor() { return m_color; }
-	void reduceSize(int sizeToReduce) { m_pSize -= sizeToReduce; }
-	int getSize() { return m_pSize; }
+	const QVector2D getPos() { return m_pos; }
+	const int getHealth() { return m_health; }
+	const void setHealth(int health_) { m_health = health_; }
+	const bool isAlive() { return m_life; }
+	const QColor getColor() { return m_color; }
+	const void reduceSize(int sizeToReduce) { m_pSize -= sizeToReduce; }
+	const int getSize() { return m_pSize; }
 
-	void update()
+	void update(const QVector2D &wind)
 	{
-		if (m_life) m_pos += m_speedV;
+		if (m_life) m_pos += m_speedV + wind;
 		m_health--;
 
 		// illumitantion
@@ -51,6 +51,7 @@ class FireLine
 	bool m_parent; // true - can generate 2nd lines, false - cant
 	int m_explosedHeight = { 0 }; // top of the screen
 	bool m_toDelete = { false };
+	int m_wind = { 0 };
 
 public:
 
@@ -73,17 +74,18 @@ public:
 		}
 	}
 
-	bool isAlive() { return m_life; }
+	const bool isAlive() { return m_life; }
 	void setParentAtribute(bool isParent) { m_parent = isParent; }
-	bool isParent() { return m_parent; }
-	bool isExploded() { return m_exploded; }
-	bool readyToDelete() { return m_toDelete; }
+	void setWind(int w) { m_wind = w; }
+	const bool isParent() { return m_parent; }
+	const bool isExploded() { return m_exploded; }
+	const bool readyToDelete() { return m_toDelete; }
 
 	void update()
 	{
 		//if (life)
 		for (auto& l : line)
-			l->update();
+			l->update(QVector2D(m_wind,0));
 
 		// make line after head
 		if (m_initLength > 0)

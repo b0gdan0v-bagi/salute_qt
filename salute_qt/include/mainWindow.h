@@ -34,6 +34,7 @@ private:
 
     void manageLayout();
     void manageConnections();
+    const QString windIs(const int w);
 
     PaintArea* paintArea;
 
@@ -47,6 +48,9 @@ private:
 
     QSlider* expRadSli;
     QLabel* expRadLab;
+
+    QSlider* windSli;
+    QLabel* windLab;
 
     QCheckBox* infoCB;
     

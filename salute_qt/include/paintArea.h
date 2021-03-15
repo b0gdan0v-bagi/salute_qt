@@ -29,6 +29,7 @@ public:
     void setShowInfo(bool show) { showInfo = show; }
     void setSaluteRate(int rate) { saluteRate = rate; }
     void setExpRadius(int r) { expRadMod = r; }
+    void setWind(int w) { windX = w; }
 
 public slots:
     void clearImage();
@@ -44,11 +45,13 @@ private:
     void clearDeadLines();
     void resizeImage(QImage* image, const QSize& newSize);
     void draw();
+    
 
 
     bool showInfo = { true };
     int saluteRate;
     int expRadMod;
+    int windX = { 0 };
 
     QList<FireLine*> lines;
     QList<QVector2D> userAdd;

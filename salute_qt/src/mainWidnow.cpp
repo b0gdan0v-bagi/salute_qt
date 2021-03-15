@@ -27,6 +27,14 @@ MainWindow::MainWindow()
 	expRadLab = new QLabel("Exp radius " + QString::number(expRadSli->value()), this);
 	paintArea->setExpRadius(expRadSli->value());
 
+	windSli = new QSlider(Qt::Horizontal, this);
+	windSli->setMaximumWidth(200);
+	windSli->setMinimum(-3);
+	windSli->setMaximum(3);
+	windSli->setValue(0);
+	windLab = new QLabel(windIs(windSli->value()), this);
+	paintArea->setWind(windSli->value());
+
 	infoCB = new QCheckBox("Show info", this);
 	infoCB->setChecked(true);
 	paintArea->setShowInfo(infoCB->isChecked());
@@ -61,8 +69,8 @@ void MainWindow::manageLayout()
 	gridLayout->addWidget(playBut, 1, 0);
 	gridLayout->addWidget(pauseBut, 2, 0);
 	gridLayout->addWidget(stopBut, 3, 0);
-	gridLayout->addWidget(exitBut, 1, 2);
-	gridLayout->addWidget(infoCB, 3, 1);
+	gridLayout->addWidget(exitBut, 3, 2);
+	gridLayout->addWidget(infoCB, 1, 2);
 
 
 
@@ -74,8 +82,14 @@ void MainWindow::manageLayout()
 	expRadLay->addWidget(expRadSli);
 	expRadLay->addWidget(expRadLab);
 
+	QHBoxLayout* windLay = new QHBoxLayout;
+	windLay->addWidget(windSli);
+	windLay->addWidget(windLab);
+
 	gridLayout->addLayout(freqLay, 1, 1);
 	gridLayout->addLayout(expRadLay, 2, 1);
+	gridLayout->addLayout(windLay, 3, 1);
+
 
 	QWidget* w = new QWidget();
 	w->setLayout(gridLayout);
@@ -99,4 +113,16 @@ void MainWindow::manageConnections()
 		else expRadLab->setText("Exp rad " + QString::number(expRadSli->value()));
 		paintArea->setExpRadius(expRadSli->value());
 		});
+	connect(windSli, QOverload<int>::of(&QSlider::valueChanged), this, [=]() {
+		windLab->setText(windIs(windSli->value()));
+		paintArea->setWind(windSli->value());
+		});
+
+}
+
+const QString MainWindow::windIs(const int w)
+{
+	if (w == 0) return QString("no wind");
+	if (w < 0) return QString("Left wind: " + QString::number(w * -1));
+	return QString("Right wind: " + QString::number(w));
 }

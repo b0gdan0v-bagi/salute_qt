@@ -137,6 +137,7 @@ void PaintArea::timerEvent(QTimerEvent* event)
                 QColor::fromRgb(QRandomGenerator::global()->generate()), // color
                 QRandomGenerator::global()->bounded(4, 7) // size
             ));
+            lines.back()->setWind(windX);
             nSalutes++;
         }
         // generate user lines
@@ -156,6 +157,7 @@ void PaintArea::timerEvent(QTimerEvent* event)
                 7 // bigger size
             ));
             lines.back()->setExplodedHeight(ua.y());
+            lines.back()->setWind(windX);
             nSalutes++;
         }
         userAdd.clear();
@@ -273,4 +275,6 @@ void PaintArea::draw()
    // mutex.unlock();
 
 }
+
+
 
