@@ -7,9 +7,9 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./include/mainWindow.h \
-    ./include/paintArea.h \
-    ./include/particle.h
+HEADERS += ./include/particle.h \
+    ./include/mainWindow.h \
+    ./include/paintArea.h
 SOURCES += ./src/mainWidnow.cpp \
     ./src/paintArea.cpp \
     ./main.cpp

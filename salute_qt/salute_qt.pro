@@ -4,13 +4,24 @@
 
 TEMPLATE = app
 TARGET = salute_qt
-DESTDIR = ../x64/Debug
-CONFIG += debug
-LIBS += -L"."
+DESTDIR = ../x64/Release
+CONFIG += release
+LIBS           = -L../plugins
+
+macx-xcode {
+    LIBS += -lpnp_basictools$($${QMAKE_XCODE_LIBRARY_SUFFIX_SETTING})
+} else {
+    LIBS += -lpnp_basictools
+    if(!debug_and_release|build_pass):CONFIG(debug, debug|release) {
+        mac:LIBS = $$member(LIBS, 0) $$member(LIBS, 1)_debug
+        win32:LIBS = $$member(LIBS, 0) $$member(LIBS, 1)d
+    }
+}
 DEPENDPATH += .
 MOC_DIR += .
-OBJECTS_DIR += debug
+OBJECTS_DIR += release
 UI_DIR += .
 RCC_DIR += .
 include(salute_qt.pri)
-CONFIG += force_debug_info
+
+
